@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily News</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+  <h1>Daily News</h1>
+  <p>Stay updated with the latest headlines</p>
+
+  <!-- Dark mode toggle -->
+  <div class="dark-mode-toggle">
+    <label class="switch">
+      <input type="checkbox" id="darkModeCheckbox">
+      <span class="slider round"></span>
+    </label>
+  </div>
+
+  <!-- Search bar -->
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search news..." />
+    <button onclick="searchNews()">Search</button>
+  </div>
+
+  <!-- Categories -->
+  <div class="categories">
+    <button onclick="changeCategory('general')" class="active">General</button>
+    <button onclick="changeCategory('business')">Business</button>
+    <button onclick="changeCategory('sports')">Sports</button>
+    <button onclick="changeCategory('technology')">Technology</button>
+  </div>
+</header>
+
+  <div id="news-container"></div>
+
+  <div class="pagination">
+    <button onclick="prevPage()">⬅ Previous</button>
+    <span id="page-num">1</span>
+    <button onclick="nextPage()">Next ➡</button>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
