@@ -1,10 +1,9 @@
-const API_KEY = "7ad7c8887a35b75a741e4dec0f6c8c7a"; // Put your GNews API key here
 let page = 1;
 let category = "general";
+let query = "";
 
-// Fetch news
 function fetchNews() {
-  const url = `https://gnews.io/api/v4/top-headlines?topic=${category}&lang=en&page=${page}&max=8&apikey=${API_KEY}`;
+  const url = `/.netlify/functions/fetch-news?category=${category}&page=${page}&query=${query}`;
 
   fetch(url)
     .then(res => res.json())
@@ -15,7 +14,6 @@ function fetchNews() {
     .catch(err => console.log(err));
 }
 
-// Display news
 function displayNews(articles) {
   const container = document.getElementById("news-container");
   container.innerHTML = "";
@@ -30,7 +28,7 @@ function displayNews(articles) {
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${article.image ? article.image : 'https://via.placeholder.com/400x200'}">
+      <img src="${article.image || 'https://via.placeholder.com/400x200'}">
       <div class="card-content">
         <p class="source">${article.source.name} • ${new Date(article.publishedAt).toLocaleDateString()}</p>
         <h3>${article.title}</h3>
@@ -43,50 +41,35 @@ function displayNews(articles) {
   });
 }
 
-// Pagination
 function nextPage() {
   page++;
   fetchNews();
 }
+
 function prevPage() {
   if (page > 1) page--;
   fetchNews();
 }
 
-// Category change
 function changeCategory(cat) {
   category = cat;
   page = 1;
   fetchNews();
-  // Active button highlight
-  document.querySelectorAll(".categories button").forEach(btn => btn.classList.remove("active"));
-  document.querySelector(`.categories button[onclick="changeCategory('${cat}')"]`).classList.add("active");
+
+  document.querySelectorAll(".categories button")
+    .forEach(btn => btn.classList.remove("active"));
+  event.target.classList.add("active");
 }
 
-// Search function
 function searchNews() {
-  const query = document.getElementById("searchInput").value.trim();
-  if (!query) {
-    page = 1;
-    fetchNews();
-    return;
-  }
-
-  const url = `https://gnews.io/api/v4/top-headlines?lang=en&q=${query}&page=${page}&max=8&apikey=${API_KEY}`;
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      displayNews(data.articles);
-      document.getElementById("page-num").innerText = page;
-    })
-    .catch(err => console.log(err));
+  query = document.getElementById("searchInput").value.trim();
+  page = 1;
+  fetchNews();
 }
 
-// Dark mode toggle
-const darkModeCheckbox = document.getElementById("darkModeCheckbox");
-darkModeCheckbox.addEventListener("change", () => {
-  document.body.classList.toggle("dark-mode");
-});
+document.getElementById("darkModeCheckbox")
+  .addEventListener("change", () => {
+    document.body.classList.toggle("dark-mode");
+  });
 
-// Load initial news
 fetchNews();
