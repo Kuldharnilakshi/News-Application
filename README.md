@@ -4,7 +4,6 @@ A modern and responsive news application that displays the latest headlines with
 
 Built using HTML, CSS, JavaScript, powered by GNews API, and deployed with Netlify Serverless Functions to securely handle API keys.
 
-🔗 Live Demo: https://news-application2.netlify.app/
 
 ✨ Features
 
